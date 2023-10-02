@@ -24,7 +24,7 @@ env:
 
 jobs:
     Refresh_Token:
-        runs-on: ubuntu-latest
+        runs-on: self-hosted
         continue-on-error: true
 
         outputs:
@@ -93,7 +93,7 @@ jobs:
                   path: refresh_token_log.txt
 
     Send_log_to_Telegram:
-        runs-on: ubuntu-latest
+        runs-on: self-hosted
         if: ${{ needs.Refresh_Token.outputs.TELEGRAM == 'true' }}
         needs: Refresh_Token
         steps:
@@ -111,7 +111,7 @@ jobs:
                   disable_notification: true
 
     Print_log_out_to_github_output:
-        runs-on: ubuntu-latest
+        runs-on: self-hosted
         if: ${{ needs.Refresh_Token.outputs.PRINT_LOG == 'true' }}
         needs: Refresh_Token
         steps:
@@ -124,7 +124,7 @@ jobs:
               run: cat refresh_token_log.txt
 
     Delete_artifact:
-        runs-on: ubuntu-latest
+        runs-on: self-hosted
         needs: [Send_log_to_Telegram, Print_log_out_to_github_output]
         steps:
             - name: Delete artifact
